@@ -1,12 +1,11 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn import linear_model
+from Usuario import *
 
-#lr = linear_model.LinearRegression()
+lr = linear_model.LinearRegression()
 
 df_main = pd.read_csv("datadepression.csv", header=0)
 df_main.columns = ["pais", "year", "depr"]
+x_general = df_main.year
+
 print(df_main)
 
 #Canadá
