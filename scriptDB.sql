@@ -25,7 +25,7 @@ CREATE TABLE MRegistro(
     id_reg INT NOT NULL AUTO_INCREMENT,
     id_pais INT NOT NULL,
     ind DECIMAL NOT NULL,
-    año INT NOT NULL,
+    year INT NOT NULL,
     PRIMARY KEY(id_reg),
     FOREIGN KEY(id_pais) REFERENCES CPais(id_pais)
 
@@ -43,7 +43,7 @@ CREATE TABLE MTEST(
     id_test INT NOT NULL AUTO_INCREMENT,
     id_usu INT NOT NULL,
     id_esc INT NOT NULL,
-    fec DATE NOT NULL,
+    fec VARCHAR(10) NOT NULL,
     res INT NOT NULL,
     PRIMARY KEY(id_test),
     FOREIGN KEY(id_usu) REFERENCES MUsuario(id_usu),

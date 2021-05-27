@@ -11,6 +11,30 @@ x_general = df_main.year
 
 print(df_main)
 
+def regresion(df_main, pais):
+    df = df_main.query(f"pais=='{pais}'")
+    X = np.array(df.year.values)
+    y = np.array(df.depr)
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
+    X_train = X_train.reshape([X_train.shape[0], 1])
+    X_test = X_test.reshape([X_test.shape[0], 1])
+
+    lr = linear_model.LinearRegression()
+    lr.fit(X_train, y_train)
+
+    Y_pred = lr.predict(X_test)
+
+    plt.scatter(X, y)
+    plt.plot(X_test, Y_pred, color="red", linewidth=3)
+    plt.show()
+    print(df)
+
+regresion(df_main, "CAN")
+regresion(df_main, "USA")
+regresion(df_main, "MEX")
+
+"""
 #CANADA
 df_CAN = df_main.query("pais=='CAN'")
 X = np.array(df_CAN.year.values)
@@ -75,3 +99,6 @@ plt.scatter(X, Y_MEX)
 plt.plot(X_test, Y_MEX_pred, color="red", linewidth=3)
 plt.show()
 print(df_MEX)
+"""
+
+
