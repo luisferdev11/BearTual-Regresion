@@ -7,7 +7,6 @@ from sklearn.model_selection import train_test_split
 
 df_main = pd.read_csv("datadepression.csv", header=0)
 df_main.columns = ["pais", "year", "depr"]
-x_general = df_main.year
 
 print(df_main)
 
