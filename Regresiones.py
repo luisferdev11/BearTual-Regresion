@@ -3,10 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
+import mpld3
 # from Usuario import *
-
-columnas = ("pais", "year", "depr")
-
 
 def regresion(df_main, pais):
     df = df_main.query(f"pais=='{pais}'")
@@ -22,28 +20,40 @@ def regresion(df_main, pais):
 
     Y_pred = lr.predict(X_test)
 
-    graf = str(input("Desea graficar?: "))
+    #esta linea se sustituira por elementos del html
+    graf = str(input(f"Desea graficar para {pais}?: "))
     if graf in ("S, s"):
-        graficar(X,y, X_test, Y_pred, df, lr, pais)
+        graficar(X,y, X_test, Y_pred, lr, pais)
     else:
-        predecir(df, lr)
+        predecir(lr)
 
-def graficar(X, y, X_test, Y_pred, df, lr, pais):
+def graficar(X, y, X_test, Y_pred, lr, pais):
+    fig = plt.figure(figsize=(6.4, 4.8))
     plt.title(f'Porcentaje de personas con depresión en {pais}')
     plt.ylabel('Porcentaje')
     plt.xlabel('Año')
     plt.scatter(X, y, c="#2EC5CE")
     plt.plot(X_test, Y_pred, c="#8C30F5", linewidth=3)
 
-    pred = str(input("Desea predecir?: "))
+    # esta linea se sustituira por elementos del html
+    pred = str(input(f"Desea predecir para {pais}?: "))
     if pred in ("S, s"):
-        predecir(df,lr)
+        predecir(lr)
         plt.scatter(entrada, prediccion, c="#FE9A22")
+
+        html_str = mpld3.fig_to_html(fig)
+        Html_file = open(f"{pais}_pred.html", "w")
+        Html_file.write(html_str)
+        Html_file.close()
         plt.show()
     else:
+        html_str = mpld3.fig_to_html(fig)
+        Html_file = open(f"{pais}.html", "w")
+        Html_file.write(html_str)
+        Html_file.close()
         plt.show()
 
-def predecir(df,lr):
+def predecir(lr):
     try:
         global entrada, prediccion
         entrada = np.array([0,])
@@ -52,16 +62,18 @@ def predecir(df,lr):
             entrada[0] = input("Escriba el valor a predecir: ")
             entrada = entrada.reshape([entrada.shape[0], 1])
             prediccion = lr.predict(entrada)
-        print(df)
         print(prediccion)
     except:
         print("Valor inválido")
 
 
+columnas = ("pais", "year", "depr")
+
 df_main = pd.read_csv("datadepression.csv", header=0)
 df_main.columns = columnas
 print(df_main)
 
-regresion(df_main, "CAN")
-regresion(df_main, "USA")
-regresion(df_main, "MEX")
+paises = ("CAN", "USA", "MEX")
+
+for pais in paises:
+    regresion(df_main, pais)
