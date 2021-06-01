@@ -1,10 +1,6 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn import linear_model
-from sklearn.model_selection import train_test_split
-import mpld3
-# from Usuario import *
+
+from Usuario import *
+
 
 def regresion(df_main, pais):
     df = df_main.query(f"pais=='{pais}'")
@@ -77,3 +73,5 @@ paises = ("CAN", "USA", "MEX")
 
 for pais in paises:
     regresion(df_main, pais)
+
+#con(2)
