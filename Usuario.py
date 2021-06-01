@@ -69,15 +69,33 @@ def regresionTest():
 
     Y_pred = lr.predict(X_test)
 
+    #Convertir el eje X en datos fecha de nuevo
     fechaDf = fechaDf.map(dt.datetime.fromordinal)
     X = np.array(fechaDf)
+    print(fechaDf)
+    print(X)
+
+    #Convertir el eje x de predicciones en Datetime
+    X_test = X_test.ravel()
+    print(dt.datetime.fromordinal(X_test[3]))
+
+    lenX_test = len(X_test)
+    print(lenX_test)
+    i=0
+    X_test = X_test.astype('S')
+    while i < lenX_test:
+        X_test[i] = dt.datetime.fromordinal(int(X_test[i]))
+        i +=1
+    X_test = X_test.astype('datetime64')
+    print(X_test)
 
     fig = plt.figure(figsize=(9, 5.5))
     plt.title('Historico test')
     plt.ylabel('Puntuacion')
     plt.xlabel('Fecha')
+    #plt.plot(X, y, c="#8C30F5")
     plt.scatter(X, y, c="#2EC5CE")
-    #plt.plot(X_test, Y_pred, c="#8C30F5", linewidth=3)
+    plt.plot(X_test, Y_pred, c="#8C30F5", linewidth=3)
 
     html_str = mpld3.fig_to_html(fig)
     Html_file = open("Usuario.html", "w")
